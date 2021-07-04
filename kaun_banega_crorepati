@@ -1,0 +1,372 @@
+#include<iostream>
+#include<stdlib.h>
+#include <ctime>
+#include <string> 
+#include<curses.h>
+ 
+
+using namespace std;
+
+long int pts;
+bool fiftyFiftyFlag = false;
+bool flipFlag = false;
+
+class quiz
+{
+    public: 
+    
+       
+     //welcoming the user  
+    void welcome1(){
+         
+        cout << "\n\n\n\n                                                        WELCOME                      \n\n\n ";
+        cout <<           "                                                         TO                           \n\n\n";
+        cout <<           "                                                  KAUN BANEGA CROREPATI              \n\n\n";
+    }
+    //asking user for his/her information 
+    void registration(){
+
+        string name;
+        int age;
+        cout<<"\n\n\n , WELCOME TO KAUN BANEGA CROREPATI\n";
+        cout<<"I am your host!";
+        cout<<"\n ENTER THE NAME:- \n";
+        cin >> name;
+        cout<<"\n ENTER THE AGE:-\n ";
+        cin>>age;
+        
+
+    }
+
+    //giving the user the information required for the game
+    void instructions(){
+
+        cout << "\n     ************************************";
+        cout << "\n     * WELCOME TO  Kaun Banega Crorepati *";
+        cout << "\n     ************************************";
+        cout << "\n\n\n\t 1.THE PARTICIPANT WILL BE ASKED A QUESTION AND FOUR OPTIONS WILL BE GIVEN.";
+        cout << "\n\t 2.THERE WILL BE ONLY 1 CORRECT OPTION.";
+        cout << "\n\t 3.ANY WRONG ANSWER WILL LEAD TO GAME OVER.";
+        cout << "\n\t 4.YOU HAVE TWO LIFELINES: fifty fifty AND flip the question. ";
+        cout << "\n\t 5.IN fifty fifty ,2 WRONG OPTIONS WILL BE ELEMINATED .";
+        cout << "\n\t 6.YOU CAN ALSO USE A 'FLIP OPTION' IN WHICH YOU CAN CHANGE THE QUESTION. ";
+        cout << "\n\t 7.*** BOTH THE LIFELINES CAN ONLY BE USED ONCE. ****";
+        cout << "\n\t 8.*** YOU CAN EVEN CHOOSE BOTH LIFELINES IN ONE QUESTION IF YOU WISH. ***";
+        cout << "\n             PRESS ANY KEY TO START THE GAME "; 
+        char temp;
+        cin >> temp;
+    }
+
+    //process for each question to work 
+    void process(int correctAnswer){
+        int userInput,lifeline;
+        cout<<"\n\tEnter your option number OR enter 5 if u want to choose a lifeline :- ";
+        cout<<"\n\tEnter 6 if you want to quit the game :- ";
+        cin >> userInput;
+        if(userInput == correctAnswer){
+            cout<<"\n\tCONGRATULATIONS , your answer is correct \n";
+            cout<<"\n\tYou have earned "<< pts<<" points\n";
+            cout << "\n             PRESS ANY KEY TO MOVE TO THE NEXT QUESTION "; 
+            char temp;
+            cin >> temp;
+        }
+        else if (userInput==5){
+            if(flipFlag == false && fiftyFiftyFlag == false){
+                cout<<"\n\n\tEnter 1 for flip the ques or 2 for 50-50 :- \n";
+            }
+            else if(flipFlag == false ){
+                cout<<"\n\tEnter 1 for flip the ques :- \n";
+            }
+            else if(fiftyFiftyFlag == false ){
+                cout<<"\n\tEnter 2 for 50-50 :-\n";
+            }
+            else{
+                cout << "\n\tYou have no lifelines left. Please proceed proceed with entering your answer.\n";
+                cin >> userInput;
+                if(userInput == correctAnswer){
+                    cout<<"\n\tCONGRATULATIONS , your answer is correct \n";
+                    cout<<"\n\tYou have earned "<<pts<<" points\n";
+                    cout << "\n             PRESS ANY KEY TO MOVE TO THE NEXT QUESTION "; 
+                    char temp;
+                    cin >> temp;
+                    return;
+                }
+                else{
+                    cout<<"\n\tSORRY , your ans is wrong \n";
+                    exit(0);
+                }
+            }
+            
+            cin>>lifeline;
+            if(lifeline==1){
+                flip();
+            }
+            else if (lifeline==2){
+                int incorrectAnswer = fifty_fifty(correctAnswer);
+                cout << "\tPlease choose between the options -- " << incorrectAnswer << " and " << correctAnswer << '\n';
+                cin >> userInput;
+                if(userInput == correctAnswer){
+                    cout<<"\n\tCONGRATULATIONS , your answer is correct \n";
+                    cout<<"\n\tYou have earned "<<pts<<" points\n";
+                    cout << "\n             PRESS ANY KEY TO MOVE TO THE NEXT QUESTION "; 
+                    char temp;
+                    cin >> temp;
+                }
+                else{
+                    cout<<"\n\tSORRY , your ans is wrong \n";
+                    exit(0);
+                }
+            }
+        }
+        else if(userInput==6){
+            quit();
+        }
+        else{
+            cout<<"\n\tSORRY , your ans is wrong \n";
+            exit(0);
+        }
+    }
+    
+    //question 1 starts 
+    void ques1(){
+            int correctAnswer = 2;
+            system("clear");
+            pts=1000;
+            cout<<"\nWhich of these organs helps in maintaining the sense of balance or equilibrium of our body ?";
+            cout<<"\n (1) NOSE "<<"\t (2) EARS ";
+            cout<<"\n (3) TONGUE" <<"\t (4) LUNGS ";
+            process(correctAnswer);
+        }
+    //question 2 begins here
+    void ques2(){
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=2000;
+            cout<<"\nWhich of the following animals do not have external ears";
+            cout<<"\n (1) CAT "<<"\t(2) SNAKE ";
+            cout<<"\n (3) RAT" <<"\t (4) BAT ";
+            process(correctAnswer);
+    }
+    void ques3(){    //question 3 begins here
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=5000;
+            cout<<"\nIn cricket ,'round the wicket' and 'over the wicket represents what";
+            cout<<"\n (1) wicket keeping "<<"\t(2) bowling ";
+            cout<<"\n (3) batting" <<"\t (4) commentary ";
+            process(correctAnswer);
+
+            }
+    //question 4 begins here
+    void ques4(){
+
+            int userInput,lifeline;
+            int correctAnswer = 4;
+            system("clear");
+            pts=10000;
+            cout<<"\nwhich of the only planet of our solar system that rotates in a cloclwise direction around its own axis?";
+            cout<<"\n (1) EARTH "<<"\t(2) JUPITER";
+            cout<<"\n (3) MARS" <<"\t (4) VENUS ";
+            process(correctAnswer);
+
+            }
+    //question 5 begins here
+    void ques5(){
+
+            int userInput,lifeline;
+            int correctAnswer = 3;
+            system("clear");
+            pts=20000;
+            cout<<"\na fruit of which of these trees has more than one seed?";
+            cout<<"\n (1) MANGO "<<"\t(2) JAMUN ";
+            cout<<"\n (3) TAMARIND" <<"\t (4) LITCHI ";
+            process(correctAnswer);
+            }
+       //question 6 begins here
+    void ques6(){
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=40000;
+            cout<<"\nWhich of the following rivers does not originate in India";
+            cout<<"\n (1) RAVI "<<"\t(2) BRAHMAPUTRA";
+            cout<<"\n (3) BEAS" <<"\t (4) GOTMI ";
+            process(correctAnswer);
+
+            }
+           //question 7 begins here
+    void ques7(){
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=80000;
+            cout<<"\nIn which of the sport do players not change their end during a match";
+            cout<<"\n (1) TENNIS "<<"\t(2) CHESS ";
+            cout<<"\n (3) BEAS" <<"\t (4) HOCKEY ";
+            process(correctAnswer);
+        }
+    void ques8(){      //this is for ques 8
+
+            int userInput,lifeline;
+            int correctAnswer = 3;
+            system("clear");
+            pts=160000;
+            cout<<"\nWho won the Battle Of Panipat that was fought in the eighteenth century";
+            cout<<"\n (1) SADESHIVRAO BHAU "<<"\t(2) AKBAR ";
+            cout<<"\n (3) AHMED SHAH ABDALL" <<"\t (4) SHER SHAH SURI ";
+            process(correctAnswer);
+    }
+
+    void ques9(){      //this is for ques 9
+
+            int userInput,lifeline;
+            int correctAnswer = 4;
+            system("clear");
+            pts=320000;
+            cout<<"\nWhich of the these politicians has been the Presidents of the Indian National Congress for the longest period?";
+            cout<<"\n (1) JAWAHARLAL NEHRU "<<"\t(2) INDIRA GANDHI ";
+            cout<<"\n (3) RAJIV GANDHI" <<"\t (4) SONIA GANDHI ";
+            process(correctAnswer);
+    }
+    void ques10(){      //this is for ques 10
+
+            int userInput,lifeline;
+            int correctAnswer = 3;
+            system("clear");
+            pts=640000;
+            cout<<"\nWhich of these devices convert alternating current or AC into direct current or DC";
+            cout<<"\n (1) INVERTER "<<"\t(2) TRANSFORMER ";
+            cout<<"\n (3) RECTIFIER" <<"\t (4) TRANSMITTER ";
+            process(correctAnswer);
+    }
+    void ques11(){      //this is for ques 11
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=1250000;
+            cout<<"\nIn the contet of space exploration, what does the P in PSLV stands for?";
+            cout<<"\n (1) PLANET "<<"\t(2) POLAR ";
+            cout<<"\n (3) POWER" <<"\t (4) POINT ";
+            process(correctAnswer);
+    }
+    void ques12(){      //this is for ques 12
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=2500000;
+            cout<<"\nWhich of these ships was not part of Christopher Columbus's first voyage in 1492?";
+            cout<<"\n (1) NINA "<<"\t(2) LA GORDA ";
+            cout<<"\n (3) PINTA" <<"\t (4) SANTA MARIA ";
+            process(correctAnswer);
+    }
+    void ques13(){      //this is for ques 13
+
+            int userInput,lifeline;
+            int correctAnswer = 3;
+            system("clear");
+            pts=5000000;
+            cout<<"\nWhat do the five rings of the Olympics represent?";
+            cout<<"\n (1) FIVE GAMES "<<"\t(2) FIVE LANGUAGES ";
+            cout<<"\n (3) FIVE CONTINENTS " <<"\t (4) FIVE OCEANS ";
+            process(correctAnswer);
+    }
+     void ques14(){      //this is for ques 14
+
+            int userInput,lifeline;
+            int correctAnswer = 2;
+            system("clear");
+            pts=10000000;
+            cout<<"\nWhich of these is a chemical element present in the periodic table";
+            cout<<"\n (1) EUROCIUM "<<"\t(2) AMERICIUM ";
+            cout<<"\n (3) ASIACIUM" <<"\t (4) AFRICIUM ";
+            process(correctAnswer);
+    }
+
+
+
+   void flip()   //code for the flipped question
+   {
+
+            int z;
+            system("clear");
+            cout<<"\n WHAT WAS 2006 FOOTBALL WORLD CUP'S MASCOT ?";
+            cout<<"\n (1) GO LEO GO "<<"\t(2) GO FOR GOAL ";
+            cout<<"\n (3) GO FOR CUP "<<"\t(4) GO FOR TACKLE ";
+            cout<<"\n PLEASE GIVE YOUR ANSWER :- ";
+            cin>>z;
+            if(z==1)
+            {cout<<"\tYour answer is correct " ; 
+            cout<<" \n\tYou can not use this lifeline anylonger ";
+            flipFlag= true;
+            cout<<"\n\tYou have earned "<<pts<<" points\n";
+            cout << "\n             PRESS ANY KEY TO MOVE TO THE NEXT QUESTION "; 
+            char temp;
+            cin >> temp;
+
+            }
+            else
+            {cout<<"\n\tYour answer is wrong";
+            
+            
+            exit(0);}
+  
+   }
+   int fifty_fifty(int correctAnswer){    //code for the 50-50 lifeline
+        
+            srand(static_cast<unsigned int>(time(nullptr)));
+            int randomValue = rand() % 4;
+            while(randomValue + 1 == correctAnswer){
+                randomValue = rand() % 4;
+            }
+            fiftyFiftyFlag= true;
+            return randomValue + 1; 
+     
+        
+   }
+   void won(){
+       system("clear");
+       cout<<"\n\n\tCONGRATULATIONS , YOU ARE A CROREPATI NOW !!!\n";
+       cout<<"\n\tPARTY  !!!\n";
+   }
+   void quit()            //code if the players quits the game
+   
+    {   system("clear");
+        
+        cout << "            *************                   BETTER LUCK NEXT TIME !          ***************\n\n\n";
+        exit(0);
+    }
+};
+
+int main(){
+    quiz s1;
+    s1.welcome1();
+    s1.registration();
+    s1.instructions();
+    s1.ques1();
+    s1.ques2();
+    s1.ques3();
+    s1.ques4();
+    s1.ques5();
+    s1.ques6();
+    s1.ques7();
+    s1.ques8();
+    s1.ques9();
+    s1.ques10();
+    s1.ques11();
+    s1.ques12();
+    s1.ques13();
+    s1.ques14();
+    s1.won();
+
+
+
+    return 0;
+}
